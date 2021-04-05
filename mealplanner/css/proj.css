@@ -1,0 +1,15 @@
+.main-form{
+
+    width: 50%;
+    margin-left: 25%;
+    margin-right: 25%;
+    font-weight: bold;
+}
+
+.fruit{
+    background: url(\images\meal.jpeg) no-repeat center; 
+    background-size: cover;
+    height: 100%;  
+      
+  }
+
