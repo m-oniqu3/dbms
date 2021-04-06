@@ -24,19 +24,13 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 
-    <style>
-        table.body {
-            font: 14px sans-serif;
-            text-align: center;
-        }
-    </style>
 
-    <title>Table with database</title>
+    <title>Meals and Shopping List</title>
     <style>
         table {
             border-collapse: collapse;
-            width: 70%;
-            font-size: 25px;
+            width: 75%;
+            font-size: 20px;
             text-align: center;
 
         }
@@ -47,7 +41,7 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
         }
 
         tr:nth-child(even) {
-            background-color: #f2f2f2
+            background-color: #e3e4fa;
         }
     </style>
 </head>
@@ -71,8 +65,8 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
             <div class="navbar-nav">
                 <a href="http://localhost/mealplanner/welcome.php" class="nav-item nav-link">Home</a>
                 <a href="http://localhost/mealplanner/recipeAdd.php" class="nav-item nav-link">Add Recipe</a>
-                <a href="http://localhost/mealplanner/meals.php" class="nav-item nav-link active text-primary">Plan Weekly Meal</a>
-                <a href="http://localhost/mealplanner/viewmeals.php" class="nav-item nav-link">View Your Meals</a>
+                <a href="http://localhost/mealplanner/meals.php" class="nav-item nav-link ">Plan Weekly Meal</a>
+                <a href="http://localhost/mealplanner/viewmeals.php" class="nav-item nav-link active text-primary">View Meals, Ingredients & Shopping List</a>
             </div>
             <div class="navbar-nav ml-auto">
                 <a href="#" class="nav-item nav-link">Welcome, <?php echo htmlspecialchars($_SESSION["username"]); ?></a>
@@ -83,7 +77,9 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
 
 
     <!--Breakfast-->
-    <div class="row mt-4 mx-auto col-lg-10 ">
+    <h1 class="display-4 mt-4 text-center">Here are your meals for the week!</h1> <br>
+    <div class="row mt-1 mx-auto col-lg-10 ">
+   
         <div class="container mb-5 col-lg-4 mt-5">
             <table>
                 <tr>
@@ -192,8 +188,10 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
 
     </div>
 
-    <!-Shopping List-->
-
+    <!--Shopping List-->
+    <!--Breakfast List-->
+    <h1 class="display-4 mt-4 text-center">Here is your shopping list for your meals!</h1> <br>
+    <div class="row mt-1 mx-auto col-lg-10 ">         
         <div class="container mb-5 col-lg-4 mt-5">
             <table>
                 <tr>
@@ -209,14 +207,14 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
                 }
 
                 $name = ($_SESSION["username"]);
-                $sql4 = "SELECT DISTINCT ingredients.ingrName FROM recipe JOIN ingredients JOIN recIngredient JOIN breakfast ON recipe.recID=breakfast.recID AND recipe.reciD=recIngredient.recID AND ingredients.ingriD=recIngredient.ingredientID WHERE breakfast.uName='{$name}'";
+                $breakfast = "SELECT DISTINCT ingredients.ingrName FROM recipe JOIN ingredients JOIN recIngredient JOIN breakfast ON recipe.recID=breakfast.recID AND recipe.reciD=recIngredient.recID AND ingredients.ingriD=recIngredient.ingredientID WHERE breakfast.uName='{$name}'";
 
 
                 //"SELECT DISTINCT recipe.recName FROM dinner JOIN recipe ON dinner.recID=recipe.recID WHERE dinner.uName='{$name}' ";
-                $result4 = $conn->query($sql4);
-                if (isset($result4->num_rows) && $result4->num_rows > 0) {
+                $breakfastresult = $conn->query($breakfast);
+                if (isset($breakfastresult->num_rows) && $breakfastresult->num_rows > 0) {
 
-                    while ($row = $result4->fetch_assoc()) {
+                    while ($row = $breakfastresult->fetch_assoc()) {
                         echo "<tr><td>" . $row["ingrName"] . "</td></tr>";
                     }
                     echo "</table>";
@@ -229,7 +227,78 @@ if (!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true) {
             </table>
         </div>
 
+                <!--Lunch List-->
+        <div class="container mb-5 col-lg-4 mt-5">
+            <table>
+                <tr>
+                    <th>All Lunch Ingredients </th>
+                </tr>
 
+                <?php
+                $conn = mysqli_connect("localhost", "root", "", "mealplan");
+                // Check connection
+                if ($conn->connect_error) {
+                    die("Connection failed: " . $conn->connect_error);
+                }
+
+                $name = ($_SESSION["username"]);
+                $lunch = "SELECT DISTINCT ingredients.ingrName FROM recipe JOIN ingredients JOIN recIngredient JOIN lunch ON recipe.recID=lunch.recID AND recipe.reciD=recIngredient.recID AND ingredients.ingriD=recIngredient.ingredientID WHERE lunch.uName='{$name}'";
+
+
+                //"SELECT DISTINCT recipe.recName FROM dinner JOIN recipe ON dinner.recID=recipe.recID WHERE dinner.uName='{$name}' ";
+                $lunchresult = $conn->query($lunch);
+                if (isset($lunchresult->num_rows) && $lunchresult->num_rows > 0) {
+
+                    while ($row = $lunchresult->fetch_assoc()) {
+                        echo "<tr><td>" . $row["ingrName"] . "</td></tr>";
+                    }
+                    echo "</table>";
+                } else {
+                    echo "0 results";
+                }
+
+                $conn->close();
+                ?>
+            </table>
+        </div>
+
+        <!--Dinner List-->
+
+        <div class="container mb-5 col-lg-4 mt-5">
+            <table>
+                <tr>
+                    <th>All Dinner Ingredients </th>
+                </tr>
+
+                <?php
+                $conn = mysqli_connect("localhost", "root", "", "mealplan");
+                // Check connection
+                if ($conn->connect_error) {
+                    die("Connection failed: " . $conn->connect_error);
+                }
+
+                $name = ($_SESSION["username"]);
+                $dinner = "SELECT DISTINCT ingredients.ingrName FROM recipe JOIN ingredients JOIN recIngredient JOIN dinner ON recipe.recID=dinner.recID AND recipe.reciD=recIngredient.recID AND ingredients.ingriD=recIngredient.ingredientID WHERE dinner.uName='{$name}'";
+
+
+                //"SELECT DISTINCT recipe.recName FROM dinner JOIN recipe ON dinner.recID=recipe.recID WHERE dinner.uName='{$name}' ";
+                $dinnerresult = $conn->query($dinner);
+                if (isset($dinnerresult->num_rows) && $dinnerresult->num_rows > 0) {
+
+                    while ($row = $dinnerresult->fetch_assoc()) {
+                        echo "<tr><td>" . $row["ingrName"] . "</td></tr>";
+                    }
+                    echo "</table>";
+                } else {
+                    echo "0 results";
+                }
+
+                $conn->close();
+                ?>
+            </table>
+        </div>
+
+</div>
 
 </body>
 
