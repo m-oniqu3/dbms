@@ -8,8 +8,6 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     exit;
 }
 ?>
-
-
 <!DOCTYPE html>
 
 <head>
@@ -70,25 +68,26 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 <body>
 
 <nav class="navbar navbar-expand-md navbar-light bg-light">
-            <a href="userhome.php" class="navbar-brand"> MealPlanner </a>
-            <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+        <a href="#" class="navbar-brand">
+            MealPlanner
+        </a>
+        <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-            <div class="collapse navbar-collapse" id="navbarCollapse">
-                <div class="navbar-nav">
-                    <a href="userhome.php" class="nav-item nav-link active">Home</a>
-                    <a href="recipeAdd.php" class="nav-item nav-link">Add Recipe</a>
-                    <a href="meals.php" class="nav-item nav-link">Plan Weekly Meal</a>
-                </div>
-                <div class="navbar-nav ml-auto">
-                    
-                    <a href="#" class="text-info nav-item nav-link "> Welcome, <?php echo htmlspecialchars($_SESSION["username"]); ?></a>
-                    <a href="logout.php" class="nav-item nav-link text-danger">Sign Out</a>
-                </div>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <div class="navbar-nav">
+                <a href="http://localhost/mealplanner/welcome.php" class="nav-item nav-link">Home</a>
+                <a href="http://localhost/mealplanner/recipeAdd.php" class="nav-item nav-link active text-primary">Add Recipe</a>
+                <a href="http://localhost/mealplanner/meals.php" class="nav-item nav-link">Plan Weekly Meal</a>
+                <a href="http://localhost/mealplanner/viewmeals.php" class="nav-item nav-link">View Your Meals</a>
             </div>
-        </nav>    
-
+            <div class="navbar-nav ml-auto">
+                <a href="#" class="nav-item nav-link">Welcome, <?php echo htmlspecialchars($_SESSION["username"]); ?></a>
+                <a href="http://localhost/mealplanner/logout.php" class="nav-item nav-link">Logout</a>
+            </div>
+        </div>
+    </nav>
 
     <div class="container">
         <form class="insert-form" id="insert_form" method="POST" action="">
@@ -254,7 +253,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                     </tr>
                 </table>
 
-                <div class="container">
+                <div class="container mt-5 mb-5 text-center">
                     <input class="btn btn-success" type="submit" name="saveBtn" id="saveBtn" value="Save">
                 </div>
             </div>

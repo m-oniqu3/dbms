@@ -14,7 +14,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         $username_err = "Please enter a username.";
     } else{
         // Prepare a select statement
-        $sql = "SELECT userid FROM users WHERE username = ?";
+        $sql = "SELECT uName FROM account WHERE uName = ?";
         
         if($stmt = mysqli_prepare($link, $sql)){
             // Bind variables to the prepared statement as parameters
@@ -64,7 +64,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     if(empty($username_err) && empty($password_err) && empty($confirm_password_err)){
         
         // Prepare an insert statement
-        $sql = "INSERT INTO users (username, password) VALUES (?, ?)";
+        $sql = "INSERT INTO account (uName, password) VALUES (?, ?)";
          
         if($stmt = mysqli_prepare($link, $sql)){
             // Bind variables to the prepared statement as parameters
@@ -99,10 +99,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     <meta charset="UTF-8">
     <title>Sign Up</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <style>
-        body{ font: 14px sans-serif; }
-        .wrapper{ width: 350px; padding: 20px; }
-    </style>
 </head>
 <body>
 
@@ -114,12 +110,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <div class="navbar-nav">
-                    <a href="userhome.html" class="nav-item nav-link active">Home</a>
+                    <a href="http://localhost/mealplanner/userhome.php" class="nav-item nav-link active">Home</a>
                     
                 </div>
                 <div class="navbar-nav ml-auto">
-                    <a href="register.php" class="nav-item nav-link">Sign Up</a>
-                    <a href="login.php" class="nav-item nav-link">Login</a>
+                    <a href="http://localhost/mealplanner/register.php" class="nav-item nav-link active text-primary">Sign Up</a>
+                    <a href="http://localhost/mealplanner/login.php" class="nav-item nav-link">Login</a>
                 </div>
             </div>
         </nav>

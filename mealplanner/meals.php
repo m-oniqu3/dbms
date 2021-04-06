@@ -8,14 +8,13 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     exit;
 }
 ?>
-
-
 <?php
 
     $db_host = "localhost";
     $db_user = "root";
     $db_password = "";
     $db_name = "mealplan";
+    $usernm = $_SESSION["username"];
 
     $conn = mysqli_connect($db_host, $db_user, $db_password, $db_name);
 
@@ -30,41 +29,46 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Create your meals</title>
+    <title>Bootstrap 4 Navbar with Logo Image</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-    <link rel="stylesheet" href="css/proj.css">
+    <link rel="stylesheet" href="proj.css">
 
 </head>
 
 <body>
 
-<nav class="navbar navbar-expand-md navbar-light bg-light">
-            <a href="userhome.php" class="navbar-brand"> MealPlanner </a>
-            <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+    <nav class="navbar navbar-expand-md navbar-light bg-light">
+        <a href="#" class="navbar-brand">
+            MealPlanner
+        </a>
+        <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-            <div class="collapse navbar-collapse" id="navbarCollapse">
-                <div class="navbar-nav">
-                    <a href="userhome.php" class="nav-item nav-link active">Home</a>
-                    <a href="recipeAdd.php" class="nav-item nav-link">Add Recipe</a>
-                    <a href="meals.php" class="nav-item nav-link">Plan Weekly Meal</a>
-                </div>
-                <div class="navbar-nav ml-auto">
-                    
-                    <a href="#" class="text-info nav-item nav-link "> Welcome, <?php echo htmlspecialchars($_SESSION["username"]); ?></a>
-                    <a href="logout.php" class="nav-item nav-link text-danger">Sign Out</a>
-                </div>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <div class="navbar-nav">
+                <a href="http://localhost/mealplanner/welcome.php" class="nav-item nav-link">Home</a>
+                <a href="http://localhost/mealplanner/recipeAdd.php" class="nav-item nav-link">Add Recipe</a>
+                <a href="http://localhost/mealplanner/meals.php" class="nav-item nav-link active text-primary">Plan Weekly Meal</a>
+                <a href="http://localhost/mealplanner/viewmeals.php" class="nav-item nav-link">View Your Meals</a>
             </div>
-        </nav>
+            <div class="navbar-nav ml-auto">
+                <a href="#" class="nav-item nav-link">Welcome, <?php echo htmlspecialchars($_SESSION["username"]); ?></a>
+                <a href="http://localhost/mealplanner/logout.php" class="nav-item nav-link">Logout</a>
+            </div>
+        </div>
+    </nav>
 
     <form class="insert-form" id="insert_form" method="POST" action="">
         <div class="container-fluid mt-3">
+            <?php
+            echo $_SESSION['username'];
+            ?>
             <h2 class="text-center text-primary">BREAKFAST</h2>
             <div class="container">
                 <table class="table table-bordered" id="breakfast_field">
@@ -95,7 +99,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                                         $bcal = "SELECT calorie FROM recipe WHERE recID=$bvalue";
                                         $bcquery = mysqli_query($conn, $bcal);
                                         while($brow = mysqli_fetch_array($bcquery)) {
-                                            $bsave = "INSERT INTO breakfast(recID, servings, calories) VALUES ('".$bvalue."', '".$bserve."','".$brow['calorie']."')";
+                                            $bsave = "INSERT INTO breakfast(recID, servings, calories, uName) VALUES ('".$bvalue."', '".$bserve."','".$brow['calorie']."', '".$usernm."')";
                                             $bquery = mysqli_query($conn, $bsave);
                                         }
                                     }
@@ -131,7 +135,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                                         $bcal2 = "SELECT calorie FROM recipe WHERE recID=$bvalue2";
                                         $bcquery2 = mysqli_query($conn, $bcal2);
                                         while($brow2 = mysqli_fetch_array($bcquery2)) {
-                                            $bsave2 = "INSERT INTO breakfast(recID, servings, calories) VALUES ('".$bvalue2."', '".$bserve2."','".$brow2['calorie']."')";
+                                            $bsave2 = "INSERT INTO breakfast(recID, servings, calories, uName) VALUES ('".$bvalue2."', '".$bserve2."','".$brow2['calorie']."', '".$usernm."')";
                                             $bquery2 = mysqli_query($conn, $bsave2);
                                         }
                                     }
@@ -167,7 +171,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                                         $bcal3 = "SELECT calorie FROM recipe WHERE recID=$bvalue3";
                                         $bcquery3 = mysqli_query($conn, $bcal3);
                                         while($brow3 = mysqli_fetch_array($bcquery3)) {
-                                            $bsave3 = "INSERT INTO breakfast(recID, servings, calories) VALUES ('".$bvalue3."', '".$bserve3."','".$brow3['calorie']."')";
+                                            $bsave3 = "INSERT INTO breakfast(recID, servings, calories, uName) VALUES ('".$bvalue3."', '".$bserve3."','".$brow3['calorie']."', '".$usernm."')";
                                             $bquery3 = mysqli_query($conn, $bsave3);
                                         }
                                     }
@@ -203,7 +207,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                                         $bcal4 = "SELECT calorie FROM recipe WHERE recID=$bvalue4";
                                         $bcquery4 = mysqli_query($conn, $bcal4);
                                         while($brow4 = mysqli_fetch_array($bcquery4)) {
-                                            $bsave4 = "INSERT INTO breakfast(recID, servings, calories) VALUES ('".$bvalue4."', '".$bserve4."','".$brow4['calorie']."')";
+                                            $bsave4 = "INSERT INTO breakfast(recID, servings, calories, uName) VALUES ('".$bvalue4."', '".$bserve4."','".$brow4['calorie']."', '".$usernm."')";
                                             $bquery4 = mysqli_query($conn, $bsave4);
                                         }
                                     }
@@ -239,7 +243,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                                         $bcal5 = "SELECT calorie FROM recipe WHERE recID=$bvalue5";
                                         $bcquery5 = mysqli_query($conn, $bcal5);
                                         while($brow5 = mysqli_fetch_array($bcquery5)) {
-                                            $bsave5 = "INSERT INTO breakfast(recID, servings, calories) VALUES ('".$bvalue5."', '".$bserve5."','".$brow5['calorie']."')";
+                                            $bsave5 = "INSERT INTO breakfast(recID, servings, calories, uName) VALUES ('".$bvalue5."', '".$bserve5."','".$brow5['calorie']."', '".$usernm."')";
                                             $bquery5 = mysqli_query($conn, $bsave5);
                                         }
                                     }
@@ -275,7 +279,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                                         $bcal6 = "SELECT calorie FROM recipe WHERE recID=$bvalue6";
                                         $bcquery6 = mysqli_query($conn, $bcal6);
                                         while($brow6 = mysqli_fetch_array($bcquery6)) {
-                                            $bsave6 = "INSERT INTO breakfast(recID, servings, calories) VALUES ('".$bvalue6."', '".$bserve6."','".$brow6['calorie']."')";
+                                            $bsave6 = "INSERT INTO breakfast(recID, servings, calories, uName) VALUES ('".$bvalue6."', '".$bserve6."','".$brow6['calorie']."', '".$usernm."')";
                                             $bquery6 = mysqli_query($conn, $bsave6);
                                         }
                                     }
@@ -311,7 +315,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                                         $bcal7 = "SELECT calorie FROM recipe WHERE recID=$bvalue7";
                                         $bcquery7 = mysqli_query($conn, $bcal7);
                                         while($brow7 = mysqli_fetch_array($bcquery7)) {
-                                            $bsave7 = "INSERT INTO breakfast(recID, servings, calories) VALUES ('".$bvalue7."', '".$bserve7."','".$brow7['calorie']."')";
+                                            $bsave7 = "INSERT INTO breakfast(recID, servings, calories, uName) VALUES ('".$bvalue7."', '".$bserve7."','".$brow7['calorie']."', '".$usernm."')";
                                             $bquery7 = mysqli_query($conn, $bsave7);
                                         }
                                     }
@@ -357,7 +361,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                                         $lcal = "SELECT calorie FROM recipe WHERE recID=$lvalue";
                                         $lcquery = mysqli_query($conn, $lcal);
                                         while($lrow = mysqli_fetch_array($lcquery)) {
-                                            $lsave = "INSERT INTO lunch(recID, servings, calories) VALUES ('".$lvalue."', '".$lserve."','".$lrow['calorie']."')";
+                                            $lsave = "INSERT INTO lunch(recID, servings, calories, uName) VALUES ('".$lvalue."', '".$lserve."','".$lrow['calorie']."', '".$usernm."')";
                                             $lquery = mysqli_query($conn, $lsave);
                                         }
                                     }
@@ -394,7 +398,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                                         $lcal2 = "SELECT calorie FROM recipe WHERE recID=$lvalue2";
                                         $lcquery2 = mysqli_query($conn, $lcal2);
                                         while($lrow2 = mysqli_fetch_array($lcquery2)) {
-                                            $lsave2 = "INSERT INTO lunch(recID, servings, calories) VALUES ('".$lvalue2."', '".$lserve2."','".$lrow2['calorie']."')";
+                                            $lsave2 = "INSERT INTO lunch(recID, servings, calories, uName) VALUES ('".$lvalue2."', '".$lserve2."','".$lrow2['calorie']."', '".$usernm."')";
                                             $lquery2 = mysqli_query($conn, $lsave2);
                                         }
                                     }
@@ -431,7 +435,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                                         $lcal3 = "SELECT calorie FROM recipe WHERE recID=$lvalue3";
                                         $lcquery3 = mysqli_query($conn, $lcal3);
                                         while($lrow3 = mysqli_fetch_array($lcquery3)) {
-                                            $lsave3 = "INSERT INTO lunch(recID, servings, calories) VALUES ('".$lvalue3."', '".$lserve3."','".$lrow3['calorie']."')";
+                                            $lsave3 = "INSERT INTO lunch(recID, servings, calories, uName) VALUES ('".$lvalue3."', '".$lserve3."','".$lrow3['calorie']."', '".$usernm."')";
                                             $lquery3 = mysqli_query($conn, $lsave3);
                                         }
                                     }
@@ -468,7 +472,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                                         $lcal4 = "SELECT calorie FROM recipe WHERE recID=$lvalue4";
                                         $lcquery4 = mysqli_query($conn, $lcal4);
                                         while($lrow4 = mysqli_fetch_array($lcquery4)) {
-                                            $lsave4 = "INSERT INTO lunch(recID, servings, calories) VALUES ('".$lvalue4."', '".$lserve4."','".$lrow4['calorie']."')";
+                                            $lsave4 = "INSERT INTO lunch(recID, servings, calories, uName) VALUES ('".$lvalue4."', '".$lserve4."','".$lrow4['calorie']."', '".$usernm."')";
                                             $lquery4 = mysqli_query($conn, $lsave4);
                                         }
                                     }
@@ -505,7 +509,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                                         $lcal5 = "SELECT calorie FROM recipe WHERE recID=$lvalue5";
                                         $lcquery5 = mysqli_query($conn, $lcal5);
                                         while($lrow5 = mysqli_fetch_array($lcquery5)) {
-                                            $lsave5 = "INSERT INTO lunch(recID, servings, calories) VALUES ('".$lvalue5."', '".$lserve5."','".$lrow5['calorie']."')";
+                                            $lsave5 = "INSERT INTO lunch(recID, servings, calories, uName) VALUES ('".$lvalue5."', '".$lserve5."','".$lrow5['calorie']."', '".$usernm."')";
                                             $lquery5 = mysqli_query($conn, $lsave5);
                                         }
                                     }
@@ -542,7 +546,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                                         $lcal6 = "SELECT calorie FROM recipe WHERE recID=$lvalue6";
                                         $lcquery6 = mysqli_query($conn, $lcal6);
                                         while($lrow6 = mysqli_fetch_array($lcquery6)) {
-                                            $lsave6 = "INSERT INTO lunch(recID, servings, calories) VALUES ('".$lvalue6."', '".$lserve6."','".$lrow6['calorie']."')";
+                                            $lsave6 = "INSERT INTO lunch(recID, servings, calories, uName) VALUES ('".$lvalue6."', '".$lserve6."','".$lrow6['calorie']."', '".$usernm."')";
                                             $lquery6 = mysqli_query($conn, $lsave6);
                                         }
                                     }
@@ -579,7 +583,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                                         $lcal7 = "SELECT calorie FROM recipe WHERE recID=$lvalue7";
                                         $lcquery7 = mysqli_query($conn, $lcal7);
                                         while($lrow7 = mysqli_fetch_array($lcquery7)) {
-                                            $lsave7 = "INSERT INTO lunch(recID, servings, calories) VALUES ('".$lvalue7."', '".$lserve7."','".$lrow7['calorie']."')";
+                                            $lsave7 = "INSERT INTO lunch(recID, servings, calories, uName) VALUES ('".$lvalue7."', '".$lserve7."','".$lrow7['calorie']."', '".$usernm."')";
                                             $lquery7 = mysqli_query($conn, $lsave7);
                                         }
                                     }
@@ -626,7 +630,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                                         $dcal = "SELECT calorie FROM recipe WHERE recID=$dvalue";
                                         $dcquery = mysqli_query($conn, $dcal);
                                         while($drow = mysqli_fetch_array($dcquery)) {
-                                            $dsave = "INSERT INTO dinner(recID, servings, calories) VALUES ('".$dvalue."', '".$dserve."','".$drow['calorie']."')";
+                                            $dsave = "INSERT INTO dinner(recID, servings, calories, uName) VALUES ('".$dvalue."', '".$dserve."','".$drow['calorie']."', '".$usernm."')";
                                             $dquery = mysqli_query($conn, $dsave);
                                         }
                                     }
@@ -662,7 +666,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                                         $dcal2 = "SELECT calorie FROM recipe WHERE recID=$dvalue2";
                                         $dcquery2 = mysqli_query($conn, $dcal2);
                                         while($drow2 = mysqli_fetch_array($dcquery2)) {
-                                            $dsave2 = "INSERT INTO dinner(recID, servings, calories) VALUES ('".$dvalue2."', '".$dserve2."','".$drow2['calorie']."')";
+                                            $dsave2 = "INSERT INTO dinner(recID, servings, calories, uName) VALUES ('".$dvalue2."', '".$dserve2."','".$drow2['calorie']."', '".$usernm."')";
                                             $dquery2 = mysqli_query($conn, $dsave2);
                                         }
                                     }
@@ -698,7 +702,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                                         $dcal3 = "SELECT calorie FROM recipe WHERE recID=$dvalue3";
                                         $dcquery3 = mysqli_query($conn, $dcal3);
                                         while($drow3 = mysqli_fetch_array($dcquery3)) {
-                                            $dsave3 = "INSERT INTO dinner(recID, servings, calories) VALUES ('".$dvalue3."', '".$dserve3."','".$drow3['calorie']."')";
+                                            $dsave3 = "INSERT INTO dinner(recID, servings, calories, uName) VALUES ('".$dvalue3."', '".$dserve3."','".$drow3['calorie']."', '".$usernm."')";
                                             $dquery3 = mysqli_query($conn, $dsave3);
                                         }
                                     }
@@ -734,7 +738,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                                         $dcal4 = "SELECT calorie FROM recipe WHERE recID=$dvalue4";
                                         $dcquery4 = mysqli_query($conn, $dcal4);
                                         while($drow4 = mysqli_fetch_array($dcquery4)) {
-                                            $dsave4 = "INSERT INTO dinner(recID, servings, calories) VALUES ('".$dvalue4."', '".$dserve4."','".$drow4['calorie']."')";
+                                            $dsave4 = "INSERT INTO dinner(recID, servings, calories, uName) VALUES ('".$dvalue4."', '".$dserve4."','".$drow4['calorie']."', '".$usernm."')";
                                             $dquery4 = mysqli_query($conn, $dsave4);
                                         }
                                     }
@@ -770,7 +774,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                                         $dcal5 = "SELECT calorie FROM recipe WHERE recID=$dvalue5";
                                         $dcquery5 = mysqli_query($conn, $dcal5);
                                         while($drow5 = mysqli_fetch_array($dcquery5)) {
-                                            $dsave5 = "INSERT INTO dinner(recID, servings, calories) VALUES ('".$dvalue5."', '".$dserve5."','".$drow5['calorie']."')";
+                                            $dsave5 = "INSERT INTO dinner(recID, servings, calories, uName) VALUES ('".$dvalue5."', '".$dserve5."','".$drow5['calorie']."', '".$usernm."')";
                                             $dquery5 = mysqli_query($conn, $dsave5);
                                         }
                                     }
@@ -806,7 +810,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                                         $dcal6 = "SELECT calorie FROM recipe WHERE recID=$dvalue6";
                                         $dcquery6 = mysqli_query($conn, $dcal6);
                                         while($drow6 = mysqli_fetch_array($dcquery6)) {
-                                            $dsave6 = "INSERT INTO dinner(recID, servings, calories) VALUES ('".$dvalue6."', '".$dserve6."','".$drow6['calorie']."')";
+                                            $dsave6 = "INSERT INTO dinner(recID, servings, calories, uName) VALUES ('".$dvalue6."', '".$dserve6."','".$drow6['calorie']."', '".$usernm."')";
                                             $dquery6 = mysqli_query($conn, $dsave6);
                                         }
                                     }
@@ -842,7 +846,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                                         $dcal7 = "SELECT calorie FROM recipe WHERE recID=$dvalue7";
                                         $dcquery7 = mysqli_query($conn, $dcal7);
                                         while($drow7 = mysqli_fetch_array($dcquery7)) {
-                                            $dsave7 = "INSERT INTO dinner(recID, servings, calories) VALUES ('".$dvalue7."', '".$dserve7."','".$drow7['calorie']."')";
+                                            $dsave7 = "INSERT INTO dinner(recID, servings, calories, uName) VALUES ('".$dvalue7."', '".$dserve7."','".$drow7['calorie']."', '".$usernm."')";
                                             $dquery7 = mysqli_query($conn, $dsave7);
                                         }
                                     }

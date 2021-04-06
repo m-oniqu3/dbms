@@ -35,7 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Validate credentials
     if (empty($username_err) && empty($password_err)) {
         // Prepare a select statement
-        $sql = "SELECT userid, username, password FROM users WHERE username = ?";
+        $sql = "SELECT uName password FROM account WHERE uName = ?";
 
         if ($stmt = mysqli_prepare($link, $sql)) {
             // Bind variables to the prepared statement as parameters
@@ -52,7 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 // Check if username exists, if yes then verify password
                 if (mysqli_stmt_num_rows($stmt) == 1) {
                     // Bind result variables
-                    mysqli_stmt_bind_result($stmt, $userid, $username, $password);
+                    mysqli_stmt_bind_result($stmt, $username, $password);
                     if (mysqli_stmt_fetch($stmt)) {
                         if ($password == $param_password) {
                             // Password is correct, so start a new session
@@ -60,7 +60,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                             // Store data in session variables
                             $_SESSION["loggedin"] = true;
-                            $_SESSION["userid"] = $userid;
                             $_SESSION["username"] = $username;
 
                             // Redirect user to welcome page
@@ -95,34 +94,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <title>Login</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <style>
-        body {
-            font: 14px sans-serif;
-        }
-
-        .wrapper {
-            width: 350px;
-            padding: 20px;
-        }
-    </style>
 </head>
 
 <body>
 
     <nav class="navbar navbar-expand-md navbar-light bg-light">
-        <a href="userhome.php" class="navbar-brand"> MealPlanner </a>
+        <a href="#" class="navbar-brand">MealPlanner</a>
         <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
             <span class="navbar-toggler-icon"></span>
         </button>
 
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav">
-                <a href="userhome.pho" class="nav-item nav-link active">Home</a>
-                
+                <a href="http://localhost/mealplanner/userhome.php" class="nav-item nav-link">Home</a>
             </div>
             <div class="navbar-nav ml-auto">
-                <a href="register.php" class="nav-item nav-link">Sign Up</a>
-                <a href="login.php" class="nav-item nav-link">Login</a>
+                <a href="http://localhost/mealplanner/register.php" class="nav-item nav-link">Sign Up</a>
+                <a href="http://localhost/mealplanner/login.php" class="nav-item nav-link active text-primary">Login</a>
             </div>
         </div>
     </nav>
